@@ -54,10 +54,10 @@ def read_voice():
 	voice=[]
 	line=''
 	for i in data:
-		line=line+i+'\n'
 		if i=='':
 			voice.append(line)
 			line=''
+		line=line+i+'\n'
 	return voice
 
 class LalaBotDaemon(Daemon):
@@ -67,14 +67,13 @@ class LalaBotDaemon(Daemon):
 		api = tweepy.API(auth)
 
 		voice = read_voice()
-		g=open("/tmp/lalasweetbot.log", "w")
 		while True:
 			tweet=rd.choice(voice)
 			try:
 				api.update_status(tweet)
 			except:
-				g.write("error occured !! \n")
-				g.write(tweet)
+				api.update_status(tweet[:len(tweet)/2])
+				api.update_status(tweet[len(tweet)/2:])
 			time.sleep(1800)
 			
 
