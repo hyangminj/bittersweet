@@ -66,14 +66,16 @@ class LalaBotDaemon(Daemon):
 		auth.set_access_token(access_key, access_secret)
 		api = tweepy.API(auth)
 
+		g=open("lalasweete_error.txt", "w");
+
 		voice = read_voice()
 		while True:
 			tweet=rd.choice(voice)
 			try:
 				api.update_status(tweet)
 			except:
-				api.update_status(tweet[:len(tweet)/2])
-				api.update_status(tweet[len(tweet)/2:])
+				f.write("tweet\n")
+				
 			time.sleep(1800)
 			
 
