@@ -74,7 +74,7 @@ class LalaBotDaemon(Daemon):
 			try:
 				api.update_status(tweet)
 			except:
-				f.write("tweet\n")
+				continue
 				
 			time.sleep(1800)
 			
