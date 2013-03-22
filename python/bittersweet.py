@@ -20,7 +20,7 @@ class BittersweetDaemon(Daemon):
 			try:
 				api.update_status(random.choice(voices))
 			except:
-				continue
+				pass
 				
 			time.sleep(1800)
 
