@@ -52,8 +52,7 @@ def get_access_token():
 
 	print
 	print "Add below lines into config.py"
-	print "access_key = %s\naccess_secret = %s"
-			% (auth.access_token.key, auth.access_token.secret)
+	print "access_key = %s\naccess_secret = %s" % (auth.access_token.key, auth.access_token.secret)
 
 if __name__ == '__main__':
 	get_access_token()
