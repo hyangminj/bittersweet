@@ -37,9 +37,9 @@ def get_access_token():
 	#
 
 	login_params = urllib.urlencode({'authenticity_token': auth_token,
-									'session[username_or_email]': user_id,
-									'session[password]': password,
-									'Authorize app': 'allow'})
+		'session[username_or_email]': user_id,
+		'session[password]': password,
+		'Authorize app': 'allow'})
 	#  try - except
 	page = opener.open(redirect_url, login_params)
 	soup = BeautifulSoup(page)
