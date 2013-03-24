@@ -3,6 +3,7 @@
 
 import random
 import time
+import logging
 
 import tweepy
 
@@ -15,11 +16,16 @@ class BittersweetDaemon(Daemon):
 		auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
 		auth.set_access_token(config.access_key, config.access_secret)
 		api = tweepy.API(auth)
+		logging.basicConfig(filename=config.logfile,
+			format='%(asctime)s %(levelname)s %(message)s',
+			level=logging.DEBUG)
 
 		while True:
 			try:
 				api.update_status(random.choice(voices))
-			except:
+				logging.info('UPDATE OK')
+			except Exception, e:
+				logging.warning(str(e))
 				pass
 				
 			time.sleep(1800)
@@ -27,7 +33,7 @@ class BittersweetDaemon(Daemon):
 if __name__ == "__main__":
 	import sys
 
-	daemon = BittersweetDaemon('/tmp/lalasweetbot.pid')
+	daemon = BittersweetDaemon(config.pidfile)
 
 	if len(sys.argv) == 2:
 		if 'start' == sys.argv[1]:
