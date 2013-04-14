@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Settings</h1>
+<form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="consumerKey">Consumer key</label>
+    <div class="controls">
+      <input type="text" id="consumerKey">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="consumerSecret">Consumer secret</label>
+    <div class="controls">
+      <input type="text" id="consumerSecret">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="accessKey">Access key</label>
+    <div class="controls">
+      <input type="text" id="accessKey">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="accessSecret">Acess Secret</label>
+    <div class="controls">
+      <input type="text" id="accessSecret">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="updateInterval">Update interval</label>
+    <div class="controls">
+      <select class="span1">
+        <option>30</option>
+        <option>60</option>
+      </select>
+      mins.
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Save</button>
+      <button type="submit" class="btn">Cancel</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

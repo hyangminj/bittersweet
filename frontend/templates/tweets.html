@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Tweets</h1>
+<table class="table table-striped">
+{% for d in data %}
+<tr><td>{{ d.voice }}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}
