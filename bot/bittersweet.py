@@ -28,7 +28,7 @@ class BittersweetDaemon(Daemon):
 				logging.warning(str(e))
 				pass
 				
-			time.sleep(1800)
+			time.sleep(3600)
 
 if __name__ == "__main__":
 	import sys
