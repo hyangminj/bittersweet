@@ -22,7 +22,13 @@ class BittersweetDaemon(Daemon):
 
 		while True:
 			try:
-				api.update_status(random.choice(voices))
+				favs = api.favorites()
+				if len(favs) > 0:
+					fav = random.choice(favs)
+					api.retweet(fav.id)
+					api.destroy_favorite(fav.id)
+				else:
+					api.update_status(random.choice(voices))
 				logging.info('UPDATE OK')
 			except Exception, e:
 				logging.warning(str(e))
