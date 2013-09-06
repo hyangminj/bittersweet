@@ -23,7 +23,7 @@ class BittersweetDaemon(Daemon):
 		while True:
 			try:
 				favs = api.favorites()
-				if len(favs) > 0:
+				if len(favs) > 0 and random.random() > 0.3:
 					fav = random.choice(favs)
 					api.retweet(fav.id)
 					api.destroy_favorite(fav.id)
