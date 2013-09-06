@@ -2,7 +2,7 @@ import tweepy, webbrowser
 import config
 
 if __name__ == '__main__':
-  auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
+  auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret, callback='oob')
   auth_url = auth.get_authorization_url(signin_with_twitter=True)
   webbrowser.open(auth_url)
   verifier = raw_input('PIN: ').strip()
