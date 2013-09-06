@@ -20,7 +20,21 @@ class BittersweetDaemon(Daemon):
 			format='%(asctime)s %(levelname)s %(message)s',
 			level=logging.DEBUG)
 
+		step = 0
 		while True:
+			try:
+				if step % 24 == 0:
+					for friend in tweepy.Cursor(api.friends).items():
+						if not api.show_friendship(target_id=friend.id)[0].followed_by:
+							friend.unfollow()
+					for follower in tweepy.Cursor(api.followers).items():
+						if not api.show_friendship(target_id=friend.id)[0].following:
+							follower.follow()
+					logging.info('FOLLOWING OK')
+			except Exception, e:
+				logging.warning(str(e))
+				pass
+
 			try:
 				favs = api.favorites()
 				if len(favs) > 0 and random.random() > 0.3:
@@ -34,6 +48,7 @@ class BittersweetDaemon(Daemon):
 				logging.warning(str(e))
 				pass
 				
+			step = step + 1
 			time.sleep(3600)
 
 if __name__ == "__main__":
