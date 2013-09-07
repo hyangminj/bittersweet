@@ -25,11 +25,13 @@ class BittersweetDaemon(Daemon):
 			try:
 				if step % 24 == 0:
 					for friend in tweepy.Cursor(api.friends).items():
-						if not api.show_friendship(target_id=friend.id)[0].followed_by:
+						if not friend.screen_name in ['Park_ByuL','missboongboong'] and not api.show_friendship(target_id=friend.id)[0].followed_by:
 							friend.unfollow()
+						time.sleep(10)
 					for follower in tweepy.Cursor(api.followers).items():
-						if not api.show_friendship(target_id=friend.id)[0].following:
+						if not api.show_friendship(target_id=follower.id)[0].following:
 							follower.follow()
+						time.sleep(10)
 					logging.info('FOLLOWING OK')
 			except Exception, e:
 				logging.warning(str(e))
