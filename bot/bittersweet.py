@@ -29,7 +29,7 @@ class BittersweetDaemon(Daemon):
 							friend.unfollow()
 						time.sleep(10)
 					for follower in tweepy.Cursor(api.followers).items():
-						if not api.show_friendship(target_id=follower.id)[0].following:
+						if not api.show_friendship(target_id=follower.id)[0].following and not follower.protected:
 							follower.follow()
 						time.sleep(10)
 					logging.info('FOLLOWING OK')
