@@ -44,7 +44,10 @@ class BittersweetDaemon(Daemon):
 				favs = api.favorites()
 				if len(favs) > 0 and random.random() < 0.7:
 					fav = random.choice(favs)
-					api.retweet(fav.id)
+					try:
+						api.retweet(fav.id)
+					except Exception, e:
+						logging.warning(str(e))
 					api.destroy_favorite(fav.id)
 					continue
 
