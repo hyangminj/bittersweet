@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import random
-import time
+import datetime, time
 import logging
 
 import tweepy
@@ -22,11 +22,10 @@ class BittersweetDaemon(Daemon):
 			format='%(asctime)s %(levelname)s %(message)s',
 			level=logging.DEBUG)
 
-		step = 0
 		while True:
 			try:
-				# Follow followers  and unfollow unfollowers
-				if step % 24 == 0:
+				# Update friends at 4 am
+				if datetime.datetime.now().hour == 4:
 					for friend in tweepy.Cursor(api.friends).items():
 						target, source = api.show_friendship(target_id=friend.id)
 						if not friend.screen_name in lalasweet_screen_name and not target.followed_by:
@@ -49,6 +48,7 @@ class BittersweetDaemon(Daemon):
 					api.destroy_favorite(fav.id)
 					continue
 
+				# Tweet!
 				api.update_status(random.choice(voices))
 
 				logging.info('UPDATE OK')
@@ -56,7 +56,6 @@ class BittersweetDaemon(Daemon):
 				logging.warning(str(e))
 				pass
 				
-			step = step + 1
 			time.sleep(3600)
 
 if __name__ == "__main__":
