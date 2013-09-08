@@ -11,6 +11,8 @@ from daemon import Daemon
 from data import voices
 import config
 
+lalasweet_screen_name = ['Park_ByuL','missboongboong']
+
 class BittersweetDaemon(Daemon):
 	def run(self):
 		auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
@@ -23,28 +25,32 @@ class BittersweetDaemon(Daemon):
 		step = 0
 		while True:
 			try:
+				# Follow followers  and unfollow unfollowers
 				if step % 24 == 0:
 					for friend in tweepy.Cursor(api.friends).items():
-						if not friend.screen_name in ['Park_ByuL','missboongboong'] and not api.show_friendship(target_id=friend.id)[0].followed_by:
+						target, source = api.show_friendship(target_id=friend.id)
+						if not friend.screen_name in lalasweet_screen_name and not target.followed_by:
 							friend.unfollow()
+							logging.info('UNFOLLOW %s' % friend.screen_name)
 						time.sleep(10)
 					for follower in tweepy.Cursor(api.followers).items():
-						if not api.show_friendship(target_id=follower.id)[0].following and not follower.protected:
+						target, source = api.show_friendship(target_id=follower.id)
+						if not target.following and not follower.protected:
 							follower.follow()
+							logging.info('FOLLOW %s' % follower.screen_name)
 						time.sleep(10)
 					logging.info('FOLLOWING OK')
-			except Exception, e:
-				logging.warning(str(e))
-				pass
 
-			try:
+			 	# Retweet a favorited tweet
 				favs = api.favorites()
 				if len(favs) > 0 and random.random() > 0.3:
 					fav = random.choice(favs)
 					api.retweet(fav.id)
 					api.destroy_favorite(fav.id)
-				else:
-					api.update_status(random.choice(voices))
+					continue
+
+				api.update_status(random.choice(voices))
+
 				logging.info('UPDATE OK')
 			except Exception, e:
 				logging.warning(str(e))
