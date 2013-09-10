@@ -40,24 +40,23 @@ class BittersweetDaemon(Daemon):
 						time.sleep(10)
 					logging.info('FOLLOWING OK')
 
-			 	# Retweet a favorited tweet
 				favs = api.favorites()
 				if len(favs) > 0 and random.random() < 0.7:
+					# Retweet a favorited tweet
 					fav = random.choice(favs)
 					try:
 						api.retweet(fav.id)
 					except Exception, e:
 						logging.warning(str(e))
 					api.destroy_favorite(fav.id)
-					continue
-
-				# Tweet!
-				api.update_status(random.choice(voices))
+				else:
+					# Tweet!
+					api.update_status(random.choice(voices))
 
 				logging.info('UPDATE OK')
+
 			except Exception, e:
 				logging.warning(str(e))
-				pass
 				
 			time.sleep(3600)
 
