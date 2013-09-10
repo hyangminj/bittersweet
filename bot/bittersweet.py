@@ -24,8 +24,10 @@ class BittersweetDaemon(Daemon):
 
 		while True:
 			try:
+				logging.info('WAKE UP')
 				# Update friends at 4 am
 				if datetime.datetime.now().hour == 4:
+					logging.info('FOLLOWING START')
 					for friend in tweepy.Cursor(api.friends).items():
 						target, source = api.show_friendship(target_id=friend.id)
 						if not friend.screen_name in lalasweet_screen_name and not target.followed_by:
@@ -40,10 +42,12 @@ class BittersweetDaemon(Daemon):
 						time.sleep(10)
 					logging.info('FOLLOWING OK')
 
+				logging.info('UPDATE START')
 				favs = api.favorites()
 				if len(favs) > 0 and random.random() < 0.7:
 					# Retweet a favorited tweet
 					fav = random.choice(favs)
+					logging.info('RETWEET %d' % fav.id)
 					try:
 						api.retweet(fav.id)
 					except Exception, e:
@@ -51,6 +55,7 @@ class BittersweetDaemon(Daemon):
 					api.destroy_favorite(fav.id)
 				else:
 					# Tweet!
+					logging.info('TWEET')
 					api.update_status(random.choice(voices))
 
 				logging.info('UPDATE OK')
